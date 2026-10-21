@@ -125,10 +125,10 @@ export default function LoginPage() {
                   </div>
                   <input
                     className="flex h-11 w-full rounded-xl border border-slate-200 bg-white/50 pl-10 pr-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm transition-all focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 focus:bg-white disabled:opacity-70 disabled:pointer-events-none"
-                    type="email"
+                    type={demoMode ? "text" : "email"}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="ivan@example.com"
+                    placeholder={demoMode ? "test" : "ivan@example.com"}
                     disabled={loading}
                     required
                   />
