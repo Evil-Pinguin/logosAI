@@ -3,11 +3,29 @@ import { useAuth } from '@/hooks/useAuth'
 import LoginPage from '@/pages/LoginPage'
 import DashboardPage from '@/pages/DashboardPage'
 import GamePage from '@/pages/GamePage'
+import { useEffect, useState } from 'react'
 
 function App() {
-  const { loading, isAuthenticated } = useAuth()
+  const [appLoading, setAppLoading] = useState(true)
+  useAuth()
+  const [session, setSession] = useState<any>(null)
 
-  if (loading) return null
+  useEffect(() => {
+    // Проверяем demo-сессию в localStorage (общий	state между компонентами)
+    const stored = localStorage.getItem('logosai_demo_session')
+    if (stored) {
+      try {
+        setSession(JSON.parse(stored))
+      } catch {
+        // ignore
+      }
+    }
+    setAppLoading(false)
+  }, [])
+
+  const isAuthenticated = !!session
+
+  if (appLoading) return null
 
   return (
     <BrowserRouter>

@@ -82,6 +82,7 @@ export function useAuth() {
         }
         setSession(mockSession)
         setProfile(DEMO_PROFILE)
+        localStorage.setItem('logosai_demo_session', JSON.stringify(mockSession))
         return null
       }
       return new Error('Неверный логин или пароль (для демо введите test / test)')
@@ -121,6 +122,7 @@ export function useAuth() {
 
   const signOut = async () => {
     if (demoMode) {
+      localStorage.removeItem('logosai_demo_session')
       setSession(null)
       setProfile(null)
       return null
