@@ -119,6 +119,43 @@ npm run dev
 
 Приложение будет доступно по адресу `http://localhost:5173`.
 
+## ☁️ Развёртывание на Vercel
+
+### 1. Подготовка репозитория
+Загрузите код в GitHub-репозиторий.
+
+### 2. Импорт в Vercel
+- Зайдите на [vercel.com](https://vercel.com) → **Add New Project**.
+- Выберите ваш репозиторий `logosAI`.
+- Vercel автоматически определит Vite и предложит настройки сборки.
+
+### 3. Переменные окружения в Vercel
+В настройках проекта добавьте:
+
+| Переменная | Значение |
+|------------|----------|
+| `VITE_SUPABASE_URL` | `https://your-project.supabase.co` |
+| `VITE_SUPABASE_ANON_KEY` | `your-anon-key` |
+| `VITE_EDGE_FUNCTION_URL` | `https://your-project.supabase.co/functions/v1/generate-lesson` |
+
+> `VITE_OPENAI_API_KEY` **не нужно** добавлять в Vercel — он хранится в Secrets Supabase для Edge Function.
+
+### 4. Сборка и публикация
+Vercel выполнит:
+- `npm install`
+- `npm run build` → папка `dist`
+- Раздача статических файлов через Vercel Edge Network
+
+Спа-маршрутизация настроена через `vercel.json` — все запросы перенаправляются на `index.html`.
+
+### 5. Supabase Edge Function
+Разверните Edge Function отдельно (она работает в Supabase, а не в Vercel):
+
+```bash
+supabase functions deploy generate-lesson
+supabase secrets set OPENAI_API_KEY=sk-...
+```
+
 ---
 
 ## 📄 Лицензия
